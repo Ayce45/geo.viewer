@@ -233,35 +233,20 @@
   }
 
   /* ---- Custom cluster markers ---- */
-  .marker-cluster-small {
-    background-color: rgba(0,87,255,0.15) !important;
+  .custom-cluster {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .marker-cluster-small div {
-    background-color: var(--app-primary) !important;
-    color: #fff !important;
-    font-family: 'Space Mono', monospace !important;
-    font-size: 12px !important;
-    font-weight: 700 !important;
-  }
-  .marker-cluster-medium {
-    background-color: rgba(0,87,255,0.2) !important;
-  }
-  .marker-cluster-medium div {
-    background-color: var(--app-primary-dark) !important;
-    color: #fff !important;
-    font-family: 'Space Mono', monospace !important;
-    font-size: 13px !important;
-    font-weight: 700 !important;
-  }
-  .marker-cluster-large {
-    background-color: rgba(0,229,160,0.2) !important;
-  }
-  .marker-cluster-large div {
-    background-color: #00C98B !important;
-    color: #fff !important;
-    font-family: 'Space Mono', monospace !important;
-    font-size: 14px !important;
-    font-weight: 700 !important;
+  .custom-cluster div {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
   }
 
   /* ---- Map controls ---- */
@@ -575,7 +560,30 @@
       chunkInterval: 100,
       chunkDelay: 10,
       animate: true,
-      disableClusteringAtZoom: 16
+      disableClusteringAtZoom: 16,
+      iconCreateFunction: function(cluster) {
+        const count = cluster.getChildCount();
+        // Smaller sizes: 22px → 50px logarithmic
+        const size = Math.round(22 + 14 * Math.log10(count));
+        const inner = Math.round(size * 0.72);
+        const fontSize = count >= 1000 ? 10 : count >= 100 ? 11 : 12;
+
+        // Smooth gradient: blue (few) → green (mid) → orange/red (many)
+        // Map count to 0–1 via log scale (2 → 0, ~10000 → 1)
+        const t = Math.min(Math.log10(count) / Math.log10(10000), 1);
+        // Hue: 220 (blue) → 120 (green) → 10 (red-orange)
+        const hue = Math.round(220 - t * 210);
+        const sat = Math.round(75 + t * 15);
+        const lum = Math.round(50 - t * 8);
+        const bg = `hsl(${hue}, ${sat}%, ${lum}%)`;
+        const ring = `hsla(${hue}, ${sat}%, ${lum}%, 0.18)`;
+
+        return L.divIcon({
+          html: `<div style="width:${size}px;height:${size}px;background:${ring};border-radius:50%;display:flex;align-items:center;justify-content:center;"><div style="width:${inner}px;height:${inner}px;background:${bg};font-size:${fontSize}px;">${count.toLocaleString()}</div></div>`,
+          className: 'custom-cluster',
+          iconSize: L.point(size, size)
+        });
+      }
     });
 
     const markerArray = points.map(p => {
