@@ -1,8 +1,9 @@
+![Screenshot](https://img.shields.io/badge/zero--config-single%20HTML%20file-blue)
 # 📍 GeoJSON Map Viewer
 
 A lightweight, single-file HTML tool to visualize location data from JSON files on an interactive map. Just drag & drop your file — no server, no install, no dependencies to manage.
 
-![Screenshot](https://img.shields.io/badge/zero--config-single%20HTML%20file-blue)
+<img width="1918" height="961" alt="Capture d’écran du 2026-02-05 15-59-02" src="https://github.com/user-attachments/assets/a8ca1046-d83d-42c6-93c2-c79cd4b91438" />
 
 ## Features
 
