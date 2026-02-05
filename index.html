@@ -402,7 +402,7 @@
     </div>
     <div class="drop-title">Drop your JSON file</div>
     <div class="drop-sub">Drag & drop your locations file or click to browse your files</div>
-    <button class="drop-btn" onclick="document.getElementById('file-input').click()">
+    <button class="drop-btn">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       Browse
     </button>
@@ -578,7 +578,7 @@
       disableClusteringAtZoom: 16
     });
 
-    points.forEach(p => {
+    const markerArray = points.map(p => {
       const marker = L.marker([p.lat, p.lng], { icon: markerIcon });
       const popupTitle = p.name || 'Location';
       marker.bindPopup(
@@ -589,9 +589,10 @@
         </div>`,
         { closeButton: false }
       );
-      markers.addLayer(marker);
+      return marker;
     });
 
+    markers.addLayers(markerArray);
     map.addLayer(markers);
 
     // Fit bounds
