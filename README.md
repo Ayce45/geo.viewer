@@ -3,7 +3,7 @@
 
 A lightweight, single-file HTML tool to visualize location data from JSON files on an interactive map. Just drag & drop your file — no server, no install, no dependencies to manage.
 
-<img width="1918" height="961" alt="Capture d’écran du 2026-02-05 15-59-02" src="https://github.com/user-attachments/assets/a8ca1046-d83d-42c6-93c2-c79cd4b91438" />
+<img width="1921" height="957" alt="image" src="https://github.com/user-attachments/assets/ab4a7919-2e44-42be-965a-c1db4022ad87" />
 
 ## Features
 
